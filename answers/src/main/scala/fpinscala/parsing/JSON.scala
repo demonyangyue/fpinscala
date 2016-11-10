@@ -20,11 +20,11 @@ object JSON {
     implicit def tok(s: String) = token(P.string(s))
 
     def array = surround("[","]")(
-      value sep "," map (vs => JArray(vs.toIndexedSeq))) scope "array"
+      value sep "," map (vs => JArray(vs.toIndexedSeq))) scope "in array"
     def obj = surround("{","}")(
-      keyval sep "," map (kvs => JObject(kvs.toMap))) scope "object"
+      keyval sep "," map (kvs => JObject(kvs.toMap))) scope "in object"
     def keyval = escapedQuoted ** (":" *> value)
-    def lit = scope("literal") {
+    def lit = scope("in literal") {
       "null".as(JNull) |
       double.map(JNumber(_)) |
       escapedQuoted.map(JString(_)) |
